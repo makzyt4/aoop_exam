@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout/default}">
+<head>
+    <title>Raport z pobrania produktów</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h2>Raport z pobrania produktów</h2>
+
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Cena za całość</th>
+                <td th:text="${wholePrice} + ' zł'"></td>
+            </tr>
+            <tr>
+                <th>Typ produktu</th>
+                <td th:text="${type.name}"></td>
+            </tr>
+            <tr>
+                <th>Pobrana ilość</th>
+                <td th:text="${form.amount}"></td>
+            </tr>
+            <tr>
+                <th>Data pobrania</th>
+                <td th:text="${form.takingDate}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

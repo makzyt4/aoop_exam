@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout/default}">
+<head>
+    <title>Pobierz produkt</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h2>Pobierz produkt</h2>
+
+        <div th:if="${failure}" class="alert alert-danger">Nie udało się pobrać produktu.</div>
+
+        <form th:object="${form}" th:action="@{~/product/take}" method="post">
+            <div class="form-group row">
+                <label for="typeInput" class="col-3 col-form-label">Typ produktu</label>
+                <div class="col-5">
+                    <select id="typeInput" class="custom-select" name="type" th:field="*{typeId}">
+                        <option value="-1">--</option>
+                        <option th:each="type : ${allTypes}" th:value="${type.id}"
+                                th:text="${type.name}"></option>
+                    </select>
+                </div>
+            </div>
+            <small class="form-text text-danger" th:if="${#fields.hasErrors('typeId')}" th:errors="*{typeId}"></small>
+
+            <div class="form-group row">
+                <label for="amountInput" class="col-3 col-form-label">Ilość w kilogramach</label>
+                <div class="input-group col-5" id="amountInput">
+                    <input type="number" class="form-control text-right" th:field="*{amount}" step="0.01"/>
+                    <div class="input-group-append">
+                        <div class="input-group-text">kg</div>
+                    </div>
+                </div>
+            </div>
+            <small class="form-text text-danger" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></small>
+
+            <div class="form-group row">
+                <label for="datePicker" class="col-3 col-form-label">Data pobrania</label>
+                <div class="input-group date col-5" id="datePicker" data-target-input="nearest">
+                    <input type="text" class="form-control datetimepicker-input" data-target="#datePicker" th:field="*{takingDate}"/>
+                    <div class="input-group-append" data-target="#datePicker" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                    </div>
+                </div>
+            </div>
+            <small class="form-text text-danger" th:if="${#fields.hasErrors('takingDate')}" th:errors="*{takingDate}"></small>
+
+            <script type="text/javascript">
+            $(function () {
+                $('#datePicker').datetimepicker({
+                    format: 'DD.MM.YYYY HH:mm'
+                });
+            });
+            </script>
+
+            <button class="btn btn-primary" type="submit">Pobierz produkt</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

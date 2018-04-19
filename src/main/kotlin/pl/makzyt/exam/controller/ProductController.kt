@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult
 import org.springframework.web.bind.WebDataBinder
 import org.springframework.web.bind.annotation.*
 import pl.makzyt.exam.form.ProductForm
+import pl.makzyt.exam.form.ProductTakeForm
 import pl.makzyt.exam.model.info.ProductInfo
 import pl.makzyt.exam.repository.ProductRepository
 import pl.makzyt.exam.repository.ProductTypeRepository
@@ -76,5 +77,34 @@ class ProductController {
         model.addAttribute("infos", tableRows)
 
         return "product_showall"
+    }
+
+    @GetMapping("/take")
+    fun takeProducts(model: Model): String {
+        model.addAttribute("allTypes", productTypeRepository.findAll())
+        model.addAttribute("form", ProductTakeForm())
+
+        return "product_take"
+    }
+
+    @PostMapping("/take")
+    fun takeProducts(@Valid @ModelAttribute("form") form: ProductTakeForm,
+                     result: BindingResult, model: Model): String {
+        model.addAttribute("allTypes", productTypeRepository.findAll())
+
+        if (!result.hasErrors()) {
+            val type = productTypeRepository.findById(form.typeId).get()
+            val price = productService.takeProduct(type, form.amount)
+
+            model.addAttribute("failure", price <= 0)
+
+            if (price > 0) {
+                model.addAttribute("wholePrice", price)
+                model.addAttribute("type", type)
+                return "product_summary"
+            }
+        }
+
+        return "product_take"
     }
 }
