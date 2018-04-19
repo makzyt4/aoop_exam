@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout/default}">
+<head>
+    <title>Dodaj produkt</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h2>Dodaj produkt</h2>
+
+        <div th:if="${success}" class="alert alert-info">Dodano nowy produkt.</div>
+
+        <form th:object="${form}" th:action="@{~/product/add}" method="post">
+
+            <div class="form-group row">
+                <label for="typeInput" class="col-3 col-form-label">Typ produktu</label>
+                <div class="col-5">
+                    <select id="typeInput" class="custom-select" name="type" th:field="*{typeId}">
+                        <option value="-1">--</option>
+                        <option th:each="type : ${allTypes}" th:value="${type.id}"
+                                th:text="${type.name}"></option>
+                    </select>
+                </div>
+            </div>
+            <small class="form-text text-danger" th:if="${#fields.hasErrors('typeId')}" th:errors="*{typeId}" ></small>
+
+            <div class="form-group row">
+                <label for="priceInput" class="col-3 col-form-label">Cena za 1 kg</label>
+                <div class="input-group col-5" id="priceInput">
+                    <input type="number" class="form-control text-right" th:field="*{price}" step="0.01"/>
+                    <div class="input-group-append">
+                        <div class="input-group-text">zł</div>
+                    </div>
+                </div>
+            </div>
+            <small class="form-text text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></small>
+
+            <div class="form-group row">
+                <label for="priceInput" class="col-3 col-form-label">Ilość w kilogramach</label>
+                <div class="input-group col-5" id="priceInput">
+                    <input type="number" class="form-control text-right" th:field="*{amount}" step="0.01"/>
+                    <div class="input-group-append">
+                        <div class="input-group-text">kg</div>
+                    </div>
+                </div>
+            </div>
+            <small class="form-text text-danger" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></small>
+
+            <button class="btn btn-primary" type="submit">Dodaj produkt</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
