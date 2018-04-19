@@ -14,6 +14,11 @@ class APIController {
     @Autowired
     lateinit var productRepository: ProductRepository
 
+    @RequestMapping("product/{id}")
+    fun productsById(@PathVariable("id") id: Long): Product {
+        return productRepository.findById(id).get()
+    }
+
     @RequestMapping("product/type/{typeId}")
     fun productsByDay(@PathVariable("typeId") typeId: Long): MutableList<Product>? {
         val products = productRepository.findAllByOrderByDeliveryDateAsc()
