@@ -1,9 +1,9 @@
 package pl.makzyt.exam.model
 
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.ManyToOne
+import javax.persistence.*
 
+@Entity
+@Table(name = "TRANSACTION")
 class Transaction {
     @Id
     @GeneratedValue

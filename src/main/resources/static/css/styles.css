@@ -1,0 +1,65 @@
+@media (min-width: 1200px) {
+    .container {
+        width: 900px;
+    }
+}
+
+html, body {
+    height: 100%;
+}
+
+#wrap {
+    min-height: 100%;
+}
+
+#main {
+    overflow:auto;
+    padding-bottom:150px; /* this needs to be bigger than footer height*/
+}
+
+.footer {
+    position: relative;
+    margin-top: -150px; /* negative value of footer height */
+    height: 150px;
+    clear:both;
+    padding-top:20px;
+}
+
+.page-footer {
+    background: #303030;
+    padding: 20px;
+}
+
+.undecorated {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.jumbotron {
+    margin-bottom: 0;
+}
+
+.container {
+    padding: 50px;
+    maxwidth
+}
+
+.gm-style-iw {
+    color: black;
+}
+
+.car-image {
+    max-width: 512px;
+    max-height: 256px;
+}
+
+.currency-input {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#map {
+    height: 400px;
+    width: 100%;
+}
