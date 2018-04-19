@@ -2,16 +2,21 @@ package pl.makzyt.exam.service
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import pl.makzyt.exam.form.ProductForm
 import pl.makzyt.exam.model.Product
 import pl.makzyt.exam.model.ProductType
 import pl.makzyt.exam.model.Transaction
 import pl.makzyt.exam.repository.ProductRepository
+import pl.makzyt.exam.repository.ProductTypeRepository
 import pl.makzyt.exam.repository.TransactionRepository
 
 @Service
 class ProductService {
     @Autowired
     lateinit var productRepository: ProductRepository
+
+    @Autowired
+    lateinit var productTypeRepository: ProductTypeRepository
 
     @Autowired
     lateinit var transactionRepository: TransactionRepository
@@ -76,5 +81,16 @@ class ProductService {
         transactionRepository.save(transaction)
 
         return price
+    }
+
+    fun formToProduct(form: ProductForm): Product {
+        val productType = productTypeRepository.findById(form.typeId).get()
+
+        val product = Product()
+        product.amount = form.amount
+        product.price = form.price
+        product.type = productType
+
+        return product
     }
 }
