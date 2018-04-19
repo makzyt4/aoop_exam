@@ -1,5 +1,6 @@
 package pl.makzyt.exam.model
 
+import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -12,4 +13,5 @@ class Transaction {
     var type: ProductType? = null
     var amount: Float = 0F
     var price: Float = 0F
+    var executionDate: Date = Date()
 }

@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout/default}">
+<head>
+    <title>Wszystkie transakcje</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h2>Wszystkie transakcje</h2>
+
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>ID</th>
+                <th>Typ produktu</th>
+                <th>Data wykonania</th>
+                <th>Cena towaru za 1 kg [zł]</th>
+                <th>Ilość towaru [kg]</th>
+            </tr>
+            </tbody>
+            <tr th:each="transaction : ${allTransactions}">
+                <td th:text="${transaction.id}"></td>
+                <td th:text="${transaction.type.name}"></td>
+                <td th:text="${transaction.executionDate}"></td>
+                <td th:text="${transaction.price}"></td>
+                <td th:text="${transaction.amount}"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>
