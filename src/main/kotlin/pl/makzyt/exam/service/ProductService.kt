@@ -33,7 +33,7 @@ class ProductService {
     }
 
     fun takeProduct(type: ProductType, amount: Float): Float {
-        val products = productRepository.findAllByOrderByAddedDateAsc()
+        val products = productRepository.findAllByOrderByDeliveryDateAsc()
         var price = 0F
         var availableAmount = 0F
         var amountLeft = amount
@@ -90,6 +90,7 @@ class ProductService {
         product.amount = form.amount
         product.price = form.price
         product.type = productType
+        product.deliveryDate = form.deliveryDate
 
         return product
     }

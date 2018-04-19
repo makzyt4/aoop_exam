@@ -6,5 +6,5 @@ import pl.makzyt.exam.model.Product
 
 @Repository
 interface ProductRepository : JpaRepository<Product, Long> {
-    fun findAllByOrderByAddedDateAsc(): List<Product>
+    fun findAllByOrderByDeliveryDateAsc(): List<Product>
 }

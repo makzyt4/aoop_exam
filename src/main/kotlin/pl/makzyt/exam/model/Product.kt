@@ -11,7 +11,7 @@ class Product {
     var id: Long = -1
     @ManyToOne
     var type: ProductType? = null
-    var addedDate: Date = Date()
+    var deliveryDate: Date = Date()
     var amount: Float = 0F
     var amountTaken: Float = 0F
     var price: Float = 0F

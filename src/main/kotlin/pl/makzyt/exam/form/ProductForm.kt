@@ -1,5 +1,6 @@
 package pl.makzyt.exam.form
 
+import java.util.*
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Min
 
@@ -10,4 +11,5 @@ class ProductForm {
     var amount: Float = 0F
     @DecimalMin(value = "0.01", message = "{validation.minPrice}")
     var price: Float = 0F
+    var deliveryDate: Date = Date()
 }

@@ -1,16 +1,17 @@
 package pl.makzyt.exam.controller
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.propertyeditors.CustomDateEditor
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.ModelAttribute
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.WebDataBinder
+import org.springframework.web.bind.annotation.*
 import pl.makzyt.exam.form.ProductForm
 import pl.makzyt.exam.repository.ProductTypeRepository
 import pl.makzyt.exam.service.ProductService
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.validation.Valid
 
 @Controller
@@ -21,6 +22,13 @@ class ProductController {
 
     @Autowired
     lateinit var productService: ProductService
+
+    @InitBinder
+    fun datebindingPreparation(binder: WebDataBinder) {
+        val dateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm")
+        val orderDateEditor: CustomDateEditor = CustomDateEditor(dateFormat, true)
+        binder.registerCustomEditor(Date::class.java, orderDateEditor)
+    }
 
     @GetMapping("/add")
     fun addProduct(model: Model): String {

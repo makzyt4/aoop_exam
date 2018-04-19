@@ -23,7 +23,7 @@
                     </select>
                 </div>
             </div>
-            <small class="form-text text-danger" th:if="${#fields.hasErrors('typeId')}" th:errors="*{typeId}" ></small>
+            <small class="form-text text-danger" th:if="${#fields.hasErrors('typeId')}" th:errors="*{typeId}"></small>
 
             <div class="form-group row">
                 <label for="priceInput" class="col-3 col-form-label">Cena za 1 kg</label>
@@ -37,8 +37,8 @@
             <small class="form-text text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></small>
 
             <div class="form-group row">
-                <label for="priceInput" class="col-3 col-form-label">Ilość w kilogramach</label>
-                <div class="input-group col-5" id="priceInput">
+                <label for="amountInput" class="col-3 col-form-label">Ilość w kilogramach</label>
+                <div class="input-group col-5" id="amountInput">
                     <input type="number" class="form-control text-right" th:field="*{amount}" step="0.01"/>
                     <div class="input-group-append">
                         <div class="input-group-text">kg</div>
@@ -46,6 +46,25 @@
                 </div>
             </div>
             <small class="form-text text-danger" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></small>
+
+            <div class="form-group row">
+                <label for="datePicker" class="col-3 col-form-label">Data dostawy</label>
+                <div class="input-group date col-5" id="datePicker" data-target-input="nearest">
+                    <input type="text" class="form-control datetimepicker-input" data-target="#datePicker" th:field="*{deliveryDate}"/>
+                    <div class="input-group-append" data-target="#datePicker" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                    </div>
+                </div>
+            </div>
+            <small class="form-text text-danger" th:if="${#fields.hasErrors('deliveryDate')}" th:errors="*{deliveryDate}"></small>
+
+            <script type="text/javascript">
+            $(function () {
+                $('#datePicker').datetimepicker({
+                    format: 'DD.MM.YYYY HH:mm'
+                });
+            });
+            </script>
 
             <button class="btn btn-primary" type="submit">Dodaj produkt</button>
         </form>
