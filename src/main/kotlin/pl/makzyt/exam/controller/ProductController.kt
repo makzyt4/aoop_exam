@@ -8,6 +8,8 @@ import org.springframework.validation.BindingResult
 import org.springframework.web.bind.WebDataBinder
 import org.springframework.web.bind.annotation.*
 import pl.makzyt.exam.form.ProductForm
+import pl.makzyt.exam.model.info.ProductInfo
+import pl.makzyt.exam.repository.ProductRepository
 import pl.makzyt.exam.repository.ProductTypeRepository
 import pl.makzyt.exam.service.ProductService
 import java.text.SimpleDateFormat
@@ -17,6 +19,9 @@ import javax.validation.Valid
 @Controller
 @RequestMapping("/product")
 class ProductController {
+    @Autowired
+    lateinit var productRepository: ProductRepository
+
     @Autowired
     lateinit var productTypeRepository: ProductTypeRepository
 
@@ -51,5 +56,25 @@ class ProductController {
         model.addAttribute("allTypes", productTypeRepository.findAll())
 
         return "product_add"
+    }
+
+    @GetMapping("/showall")
+    fun showAllProducts(model: Model): String {
+        val products = productRepository.findAllByOrderByDeliveryDateAsc()
+        val tableRows = arrayListOf<ProductInfo>()
+
+        for (product in products) {
+            val info = ProductInfo()
+            info.amountLeft = product.amount - product.amountTaken
+            info.deliveryDate = product.deliveryDate
+            info.type = product.type!!.name
+            info.wholePrice = info.amountLeft * product.price
+
+            tableRows.add(info)
+        }
+
+        model.addAttribute("infos", tableRows)
+
+        return "product_showall"
     }
 }

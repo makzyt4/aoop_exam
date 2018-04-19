@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout/default}">
+<head>
+    <title>Dodaj produkt</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h2>Wszystkie produkty</h2>
+
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Data dostawy</th>
+                <th>Typ produktu</th>
+                <th>Pozostała ilość z dostawy [kg]</th>
+                <th>Cena towaru [zł]</th>
+            </tr>
+            </tbody>
+            <tr th:each="info : ${infos}">
+                <td th:text="${info.deliveryDate}"></td>
+                <td th:text="${info.type}"></td>
+                <td th:text="${info.amountLeft}"></td>
+                <td th:text="${info.wholePrice}"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>
