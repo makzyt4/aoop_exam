@@ -28,10 +28,10 @@ class ProductService {
     }
 
     fun takeProduct(type: ProductType, amount: Float): Float {
-        val products = productRepository.findAll()
+        val products = productRepository.findAllByOrderByAddedDateAsc()
         var price = 0F
-        var amountTaken = 0F
         var availableAmount = 0F
+        var amountLeft = amount
 
         // Check if there are enough products in the storage
         for (product in products) {
@@ -54,21 +54,18 @@ class ProductService {
             }
 
             val currentAmount = product.amount - product.amountTaken
+            val amountTaken = if (amount > currentAmount) currentAmount else amountLeft
 
-            if (amount >= currentAmount) {
-                product.amountTaken = product.amount
-            } else {
-                product.amountTaken += amount
-            }
-
-            amountTaken = currentAmount
             price += amountTaken * product.price
+            amountLeft -= amountTaken
+
+            product.amountTaken += amountTaken
 
             productRepository.save(product)
-        }
 
-        if (amountTaken < amount) {
-            price = 0F
+            if (amountLeft <= 0) {
+                break
+            }
         }
 
         val transaction = Transaction()

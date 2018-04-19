@@ -5,4 +5,6 @@ import org.springframework.stereotype.Repository
 import pl.makzyt.exam.model.Product
 
 @Repository
-interface ProductRepository : JpaRepository<Product, Long>
+interface ProductRepository : JpaRepository<Product, Long> {
+    fun findAllByOrderByAddedDateAsc(): List<Product>
+}
