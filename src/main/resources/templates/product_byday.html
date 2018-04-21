@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
       layout:decorate="~{layout/default}">
 <head>
     <title>Pokaż ceny produktu w danym dniu</title>
@@ -10,17 +10,42 @@
         <h2>Pokaż ceny produktu w danym dniu</h2>
 
 
+        <form th:object="${form}" th:action="@{~/product/byday}" method="post">
 
+            <div class="form-group row">
+                <label for="typeInput" class="col-3 col-form-label">Typ produktu</label>
+                <div class="col-5">
+                    <select id="typeInput" class="custom-select" name="type" th:field="*{typeId}">
+                        <option value="-1">--</option>
+                        <option th:each="type : ${allTypes}" th:value="${type.id}"
+                                th:text="${type.name}"></option>
+                    </select>
+                </div>
+            </div>
+            <small class="form-text text-danger" th:if="${#fields.hasErrors('typeId')}" th:errors="*{typeId}"></small>
+
+            <div class="form-group row">
+                <label for="datePicker" class="col-3 col-form-label">Data dostawy</label>
+                <div class="input-group date col-5" id="datePicker" data-target-input="nearest">
+                    <input type="text" class="form-control datetimepicker-input" data-target="#datePicker"
+                           th:field="*{deliveryDate}"/>
+                    <div class="input-group-append" data-target="#datePicker" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                    </div>
+                </div>
+            </div>
+            <small class="form-text text-danger" th:if="${#fields.hasErrors('deliveryDate')}"
+                   th:errors="*{deliveryDate}"></small>
 
             <script type="text/javascript">
             $(function () {
                 $('#datePicker').datetimepicker({
-                    format: 'DD.MM.YYYY HH:mm'
+                    format: 'DD.MM.YYYY'
                 });
             });
             </script>
 
-            <button class="btn btn-primary" type="submit">Dodaj produkt</button>
+            <button class="btn btn-primary" type="submit">Wyszukaj</button>
         </form>
     </div>
 </div>

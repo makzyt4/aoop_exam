@@ -9,6 +9,8 @@ import pl.makzyt.exam.model.Transaction
 import pl.makzyt.exam.repository.ProductRepository
 import pl.makzyt.exam.repository.ProductTypeRepository
 import pl.makzyt.exam.repository.TransactionRepository
+import java.util.*
+import java.util.stream.Collectors
 
 @Service
 class ProductService {
@@ -93,5 +95,31 @@ class ProductService {
         product.deliveryDate = form.deliveryDate
 
         return product
+    }
+
+    fun productsByDay(type: ProductType, date: Date): ArrayList<Product> {
+        val sameTypeResults = productRepository.findAllByOrderByDeliveryDateAsc()
+                .stream()
+                .filter({
+                    p: Product ->
+                    p.type == type
+                }).collect(Collectors.toList())
+        var sameDayResults = kotlin.collections.arrayListOf<Product>()
+
+        for (result in sameTypeResults) {
+            val cal1: Calendar = Calendar.getInstance()
+            val cal2: Calendar = Calendar.getInstance()
+            cal1.time = date
+            cal2.time = result.deliveryDate
+
+            val sameDay = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                    cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)
+
+            if (sameDay) {
+                sameDayResults.add(result)
+            }
+        }
+
+        return sameDayResults
     }
 }

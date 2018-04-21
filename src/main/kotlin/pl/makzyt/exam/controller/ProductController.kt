@@ -7,6 +7,7 @@ import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.WebDataBinder
 import org.springframework.web.bind.annotation.*
+import pl.makzyt.exam.form.ProductByDayForm
 import pl.makzyt.exam.form.ProductForm
 import pl.makzyt.exam.form.ProductTakeForm
 import pl.makzyt.exam.model.info.ProductInfo
@@ -31,7 +32,7 @@ class ProductController {
 
     @InitBinder
     fun datebindingPreparation(binder: WebDataBinder) {
-        val dateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm")
+        val dateFormat = SimpleDateFormat("dd.MM.yyyy")
         val orderDateEditor: CustomDateEditor = CustomDateEditor(dateFormat, true)
         binder.registerCustomEditor(Date::class.java, orderDateEditor)
     }
@@ -108,4 +109,27 @@ class ProductController {
         return "product_take"
     }
 
+    @GetMapping("/byday")
+    fun byDayProducts(model: Model): String {
+        model.addAttribute("form", ProductByDayForm())
+        model.addAttribute("allTypes", productTypeRepository.findAll())
+
+        return "product_byday"
+    }
+
+    @PostMapping("/byday")
+    fun byDayProducts(@Valid @ModelAttribute("form") form: ProductByDayForm,
+                      result: BindingResult, model: Model): String {
+        model.addAttribute("allTypes", productTypeRepository.findAll())
+
+        if (!result.hasErrors()) {
+            val type = productTypeRepository.findById(form.typeId).get()
+
+            model.addAttribute("products", productService.productsByDay(type, form.deliveryDate))
+
+            return "product_byday_showall"
+        }
+
+        return "product_byday"
+    }
 }

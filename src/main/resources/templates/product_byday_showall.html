@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout/default}">
+<head>
+    <title th:text="'Ceny produktu dnia' + ${form.deliveryDate}"></title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h2 th:text="'Ceny produktu dnia' + ${form.deliveryDate}"></h2>
+
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Data dostawy</th>
+                <th>Typ produktu</th>
+                <th>Cena towaru za 1 kg [zł]</th>
+            </tr>
+            </tbody>
+            <tr th:each="product : ${products}">
+                <td th:text="${product.deliveryDate}"></td>
+                <td th:text="${product.type.name}"></td>
+                <td th:text="${product.price}"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>
